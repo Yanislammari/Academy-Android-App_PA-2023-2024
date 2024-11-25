@@ -1,0 +1,52 @@
+version: 2.1
+
+orbs:
+  android: circleci/android@2.4.0
+
+jobs:
+  build-and-upload:
+    executor:
+      name: android/android-machine
+      tag: default
+    environment: # You can change the following
+      release_notes: ""
+      git_release_notes: true
+      git_commit_id: false
+      notify: true
+
+    steps:
+      - checkout
+      - run:
+          name: Install OpenJDK 17
+          command: |
+            sudo apt-get update && sudo apt-get install openjdk-17-jdk
+            sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
+            sudo update-alternatives --set javac /usr/lib/jvm/java-17-openjdk-amd64/bin/javac
+            java -version
+      - run:
+          name: Assemble debug build
+          command: ./gradlew assembleDebug
+      - android/start-emulator-and-run-tests:
+          test-command: ./gradlew connectedDebugAndroidTest
+          system-image: system-images;android-30;google_apis;x86
+
+      # And finally run the release build
+      - run:
+          name: Assemble Release Build
+          command: ./gradlew assembleRelease
+
+      - run:
+          name: Upload to TestApp.io
+          command: |
+            export INSTALL_DIR=/tmp
+            curl -Ls https://github.com/testappio/cli/releases/latest/download/install | bash
+            $INSTALL_DIR/ta-cli publish --api_token=$TESTAPPIO_API_TOKEN --app_id=$TESTAPPIO_APP_ID --release="android" --apk=./app/build/outputs/apk/debug/app-debug.apk --release_notes=$release_notes --notify=$notify --git_release_notes=$git_release_notes --git_commit_id=$git_commit_id --source="Circle CI"
+
+
+# Orchestrate jobs using workflows
+# See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
+workflows:
+  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
+    # Inside the workflow, you define the jobs you want to run.
+    jobs:
+      - build-and-upload

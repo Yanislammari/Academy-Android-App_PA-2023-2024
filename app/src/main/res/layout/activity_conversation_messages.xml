@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="#f7f7f7"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="center_vertical"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/conversation_messages_profile_picture"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/profile_picture_receiver_descripton"
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder"
+            tools:ignore="ImageContrastCheck" />
+
+        <TextView
+            android:id="@+id/conversation_messages_profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_name_receiver_text"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/conversation_messages_recycler_view"
+        tools:listitem="@layout/message_sent_cell"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:background="@color/white"
+        android:elevation="4dp">
+
+        <EditText
+            android:id="@+id/conversation_messages_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autofillHints=""
+            android:background="@android:color/transparent"
+            android:hint="@string/placeholder_input_message_text"
+            android:inputType="textMultiLine"
+            android:maxLines="5"
+            android:minHeight="48dp"
+            android:padding="12dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="#757575"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/conversation_messages_send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/send_button_description"
+            android:src="@drawable/baseline_send_24"
+            app:tint="@color/button"
+            tools:ignore="TouchTargetSizeCheck" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="main_background">#b3a3ff</color>
+    <color name="button">#3a3b7b</color>
+    <color name="lesson_finish">#9DDD53</color>
+    <color name="gray">#C8C8C8</color>
+</resources>
